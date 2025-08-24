@@ -140,10 +140,6 @@ Resources:
           FromPort: 443
           ToPort: 443
           CidrIp: 0.0.0.0/0
-        - IpProtocol: icmp
-          FromPort: -1
-          ToPort: -1
-          SourceSecurityGroupId: !Ref PrivateSecurityGroup
       SecurityGroupEgress:
         - IpProtocol: "-1"
           CidrIp: 0.0.0.0/0
@@ -167,6 +163,32 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub ${AWS::StackName}-Private-SG
+
+  # Add a separate security group rule for the reverse direction
+  PublicSecurityGroupICMPIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref PublicSecurityGroup
+      IpProtocol: icmp
+      FromPort: -1
+      ToPort: -1
+      SourceSecurityGroupId: !Ref PrivateSecurityGroup
+      Description: Allow ICMP from private instances
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: Enable ping from public subnet and outbound internet access
+        VpcId: !Ref VPC
+        SecurityGroupIngress:
+          - IpProtocol: icmp
+            FromPort: -1
+            ToPort: -1
+            SourceSecurityGroupId: !Ref PublicSecurityGroup
+        SecurityGroupEgress:
+          - IpProtocol: "-1"
+            CidrIp: 0.0.0.0/0
+        Tags:
+          - Key: Name
+            Value: !Sub ${AWS::StackName}-Private-SG
 
   VpcEndpointForSsm:
     Type: AWS::EC2::VPCEndpoint
