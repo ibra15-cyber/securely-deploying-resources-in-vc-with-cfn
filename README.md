@@ -219,35 +219,6 @@ systemctl start amazon-ssm-agent
 systemctl enable amazon-ssm-agent
 ```
 
-## Assessment Criteria Achievement
-
-### CloudFormation Template Configuration (50%)
-✅ **Comprehensive VPC Design**: 
-- Multi-AZ VPC with proper CIDR allocation
-- Internet Gateway and NAT Gateway properly configured
-- Route tables with appropriate associations
-- Security groups with least privilege rules
-
-### EC2 Instance Deployment (30%)
-✅ **Functional Instance Deployment**:
-- Public web server with Apache installation via User Data
-- Private instance in isolated subnet
-- Both instances using Amazon Linux AMI
-- Proper security group assignments
-
-### Systems Manager Integration (10%)
-✅ **Session Manager Functionality**:
-- IAM roles configured for SSM access
-- VPC endpoints for private connectivity
-- Successful remote access without SSH keys
-- All connectivity tests performed via Session Manager
-
-### Extra Implementation (10%)
-✅ **Additional Best Practices**:
-- VPC endpoints for enhanced security
-- Comprehensive documentation
-- Proper resource naming and tagging
-- Network connectivity validation
 
 ## Files Included
 
